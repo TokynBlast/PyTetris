@@ -1,9 +1,9 @@
 {
-  scores:{
-    pl1:{"No Score yet":0000},
-    pl2:{"No Score yet":0000},
-    pl3:{"No Score yet":0000},
-    pl4:{"No Score yet":0000},
-    pl5:{"No Score yet":0000}
+  "scores": {
+    "pl1": { "score": 0 },
+    "pl2": { "score": 0 },
+    "pl3": { "score": 0 },
+    "pl4": { "score": 0 },
+    "pl5": { "score": 0 }
   }
 }
