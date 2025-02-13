@@ -1,3 +1,9 @@
 {
-  "User":0
+  scores = {
+    pl1:{"No Score yet":0000},
+    pl2:{"No Score yet":0000},
+    pl3:{"No Score yet":0000},
+    pl4:{"No Score yet":0000},
+    pl5:{"No Score yet":0000},
+  }
 }
