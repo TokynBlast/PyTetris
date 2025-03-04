@@ -1,26 +1,17 @@
 <h1>Tetris game in python</h1>
-<p>
-  Made a clone of tetris in python using pygame library.<br>
-  You can clone this repo and run main.py file.
-  
-  HTTPS cloning:
-  ```
-https://github.com/AnandSrikumar/PyTetris.git
-  ```
 
-  SSH cloning (You can add an SSH key to clone via SSH <a href="https://github.com/settings/ssh/new">here</a>):
-  ```
-git@github.com:AnandSrikumar/PyTetris.git
-  ```
+## Running
+- Clone or download the repo (Green button titled 'code')
+- Run run.sh or main.py (run.sh ensures you have the requirements installed)
 
-Github CLI:
-  ```
-gh repo clone AnandSrikumar/PyTetris
-  ```
-  <br><br>
-</p>
+## About
+This is a Tetris clone, made possible because of Pygame!
+<br><br>
+
 <img src=".github/imgs/display.png" width="60%">
-<p>The shapes are made using pygame rect.</p>
+
+### Extra Info
+The shapes are made, using rects
 
 <p>
   This has been developed by <a href="https://github.com/AnandSrikumar">AnandSrikumar</a><br>
