@@ -17,7 +17,8 @@ class GuiCollisions:
             self.event_state.set_verticle_speed(self.constants['BLOCK_SIZE'])
             
         if name.lower() == "highscores":
-            highs = json.dumps('../gui/highscore.json')
+            pass
+            # Currently, there is only one score.
         if name.lower() == "about":
             pass
             """
