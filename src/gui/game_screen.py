@@ -52,11 +52,11 @@ class GameScreen(Screen):
                                                     scoring['x_off'],
                                                     scoring['y_off'])
         high_score_coords = place_items_at_offset_percent(self.coords['cont_x']
-                                                    ,self.coords['cont_y']
+                                                    ,self.coords['cont_y'] + 200
                                                     ,self.coords['cont_width'],
                                                     self.coords['cont_height'],
                                                     scoring['x_off'],
-                                                    scoring['y_off'])
+                                                    scoring['y_off'] + 200)
         
         score = self.event_state.get_score()
         high = self.event_state.get_high_score()
