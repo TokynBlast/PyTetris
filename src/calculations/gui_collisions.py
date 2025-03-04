@@ -1,3 +1,4 @@
+import json
 
 class GuiCollisions:
     def __init__(self, constants, event_state):
@@ -16,9 +17,25 @@ class GuiCollisions:
             self.event_state.set_verticle_speed(self.constants['BLOCK_SIZE'])
             
         if name.lower() == "highscores":
-            pass
+            highs = json.dumps('../gui/highscore.json')
         if name.lower() == "about":
             pass
+            """
+            This is what about will look like (Should make a text function)
+
+
+
+            Originally developed by AnandSrikumar on GitHub
+            
+            PyTetris is a Python version of the INCREDIBLE Tetris!
+            Developed in Germany of course!
+
+            To play, click 'play'
+
+
+            
+            There could also be something for reporting bugs and suggestions.
+            """
         if name.lower() == "exit":
             self.event_state.set_running(False)
     
