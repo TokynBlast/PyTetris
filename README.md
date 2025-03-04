@@ -26,10 +26,3 @@ gh repo clone AnandSrikumar/PyTetris
   This has been developed by <a href="https://github.com/AnandSrikumar">AnandSrikumar</a><br>
   Maintainer: <a href="https://github.com/AnandSrikumar">AnandSrikumar</a>
 </p>
-
-TODO:
-<ul>
-  <li>Add music</li>
-  <li>Add game modes</li>
-  <li>Add new & different shapes</li>
-</ul>
