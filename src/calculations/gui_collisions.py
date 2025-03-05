@@ -18,7 +18,7 @@ class GuiCollisions:
             
         if name.lower() == "highscores":
             pass
-            # Currently, there is only one score.
+            # Currently, there is only one high score.
         if name.lower() == "about":
             pass
             """
@@ -41,6 +41,9 @@ class GuiCollisions:
             self.event_state.set_running(False)
     
     def level_score_reset(self):
+        if self.event_state.get_score() > self.event_state.get_high_score():
+            with open('src/services/highscore', 'w') as f:
+                f.write(self.event_state.get_score())
         self.event_state.set_game_over(False)
         self.event_state.set_score(0)
         self.event_state.set_current_shape(None)
