@@ -19,6 +19,16 @@
         "x_off": 0.12,
         "y_off": 0.81
     },
+
+    "high_score": {
+        "x_off": 0.12,
+        "y_off": 0.90
+    },
+
+    "high_score_title":{
+        "x_off": 0.12,
+        "y_off": 0.81
+    },
     "block_size": 35,
     "next_shapes_container": {
         "x_off": 0.70,
