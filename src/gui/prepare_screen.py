@@ -1,6 +1,6 @@
 import pygame
 from ..calculations.dims import *
-import random
+# import random
 
 class GameScreen:
     def __init__(self, screen, constants, event_state):
