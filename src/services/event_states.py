@@ -234,5 +234,10 @@ class EventVariables:
         return self._bag_of_7
     
     def get_high_score(self):
-        with open('highscore', 'r') as score_file:
-            return int(score_file.read().strip())
+        try:
+            with open('highscore', 'r') as score_file:
+                return int(score_file.read().strip())
+        except FileNotFoundError:
+            with open('highscore.txt', 'w') as score_file:
+                score_file.write('0')
+            return 0
