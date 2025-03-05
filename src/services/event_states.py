@@ -235,9 +235,9 @@ class EventVariables:
     
     def get_high_score(self):
         try:
-            with open('highscore', 'r') as score_file:
+            with open('src/services/highscore', 'r') as score_file:
                 return int(score_file.read().strip())
         except FileNotFoundError:
-            with open('highscore.txt', 'w') as score_file:
+            with open('src/services/highscore', 'w') as score_file:
                 score_file.write('0')
             return 0
