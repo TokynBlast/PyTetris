@@ -234,5 +234,5 @@ class EventVariables:
         return self._bag_of_7
     
     def get_high_score(self):
-        with open('../gui/highscore', 'r') as SCORE:
+        with open('highscore', 'r') as SCORE:
             return SCORE
