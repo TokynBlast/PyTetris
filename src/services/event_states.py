@@ -234,5 +234,5 @@ class EventVariables:
         return self._bag_of_7
     
     def get_high_score(self):
-        with open('highscore.txt', 'r') as SCORE:
-            return SCORE
+        with open('highscore', 'r') as score_file:
+            return int(score_file.read().strip())
