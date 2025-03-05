@@ -241,3 +241,7 @@ class EventVariables:
             with open('src/services/highscore', 'w') as score_file:
                 score_file.write('0')
             return 0
+    
+    def set_high_score(self):
+        with open('src/services/highscore', 'w') as score_file:
+            return int(score_file.read().strip())
