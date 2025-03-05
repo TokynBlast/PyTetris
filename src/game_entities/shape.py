@@ -143,7 +143,7 @@ class Shape:
             col = loc['col']
             prev_col = col - 1
             next_col = col + 1
-            if prev_col >= 0:
+            if prev_col >= 0 and row < len(grid_cells):
                 if grid_cells[row][prev_col]['val'] == 1:
                     left_move = False
             if next_col < len(grid_cells[0]):
