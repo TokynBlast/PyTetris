@@ -50,20 +50,33 @@ class GameScreen(Screen):
                                                     self.coords['cont_height'],
                                                     scoring['x_off'],
                                                     scoring['y_off'])
-        high_score_coords = place_items_at_offset_percent(self.coords['cont_x']
-                                                    ,self.coords['cont_y'] - 5
-                                                    ,self.coords['cont_width'],
-                                                    self.coords['cont_height'],
-                                                    scoring['x_off'],
-                                                    scoring['y_off'] - 5)
         
         score = self.event_state.get_score()
-        high = self.event_state.get_high_score()
         text_surface = font.render('SCORE', True, color)
         score_surface = font.render(str(score), True, color)
-        high_score_surface = font.render(str(high), True, color)
         self.screen.blit(text_surface, score_title_coords)
         self.screen.blit(score_surface, score_coords)
+
+    def high_score_blit(self, font, color):
+        scoring_title = self.game['high_score_title']
+        scoring = self.game['high_score']
+        highscore_title_coords = place_items_at_offset_percent(self.coords['cont_x']
+                                                    ,self.coords['cont_y']
+                                                    ,self.coords['cont_width'],
+                                                    self.coords['cont_height'],
+                                                    scoring_title['x_off'],
+                                                    scoring_title['y_off'])
+        high_score_coords = place_items_at_offset_percent(self.coords['cont_x'],
+                                                    5,
+                                                    self.coords['cont_width'],
+                                                    self.coords['cont_height'],
+                                                    scoring['x_off'],
+                                                    5)
+        
+        high = self.event_state.get_high_score()
+        text_surface = font.render('HIGH SCORE', True, color)
+        high_score_surface = font.render(str(high), True, color)
+        self.screen.blit(text_surface, highscore_title_coords)
         self.screen.blit(high_score_surface, high_score_coords)
 
     def grid_blit(self, grid_boundary_color, block_size):
