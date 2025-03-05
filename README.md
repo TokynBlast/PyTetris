@@ -11,7 +11,8 @@ This is a Tetris clone, made possible because of Pygame!
 <img src=".github/imgs/display.png" width="60%">
 
 ### Extra Info
-The shapes are made, using rects
+- The shapes are made, using rects
+- The sounds were generated randomly. The source code can be found <a href="https://github.com/TokynBlast/PySyn">here</a>.
 
 <p>
   This has been developed by <a href="https://github.com/AnandSrikumar">AnandSrikumar</a><br>
