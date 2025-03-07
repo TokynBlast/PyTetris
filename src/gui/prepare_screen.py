@@ -44,8 +44,6 @@ class GameScreen:
             pygame.draw.rect(self.screen, color_random, boundary, width=line_width)
             if cidx >= len(random_colors):
                 cidx = 0
-        
-        
 
 
     # def draw_grid_container(self, color):
