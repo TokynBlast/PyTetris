@@ -57,6 +57,8 @@ class GameScreen(Screen):
         self.screen.blit(text_surface, score_title_coords)
         self.screen.blit(score_surface, score_coords)
 
+        self.event_state.update_high_score()
+
     def high_score_blit(self, font, color):
         high_scoring_title = self.game['high_score_title']
         scoring = self.game['highscore']
