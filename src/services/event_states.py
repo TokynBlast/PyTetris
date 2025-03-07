@@ -1,3 +1,4 @@
+import json
 class EventVariables:
     def __init__(self):
         self._running = True
@@ -37,6 +38,10 @@ class EventVariables:
         self._game_over = False
         self._pause = False
         self._line_completes = 0
+        self._high_scores = self.load_high_scores()
+        self.name_input_active = False
+        self.player_name = ""
+
 
     def set_line_complete(self, lc):
         self._line_completes += lc
@@ -164,11 +169,11 @@ class EventVariables:
     def get_current_shape(self):
         return self._current_shape
 
-    def set_score(self, score):
-        self._score = score
-
     def get_score(self):
         return self._score
+
+    def set_score(self, score):
+        self._score = score
     
     def set_is_mouse_pressed(self, val: bool):
         self._is_mouse_pressed = val
@@ -245,11 +250,42 @@ class EventVariables:
     def set_high_score(self, score):
         self._high_score = score
 
-    def get_high_score(self):
+    
+    def get_high_scores(self):
+        return self._high_scores
+
+
+    def load_high_scores(self):
         try:
-            with open('src/services/highscore', 'r') as score_file:
-                return int(score_file.read().strip())
+            with open('src/services/highscore', 'r') as file:
+                return json.load(file)
         except FileNotFoundError:
-            with open('src/services/highscore', 'w') as score_file:
-                score_file.write('0')
-            return 0
+            return {
+                1: {"name": "", "score": 0},
+                2: {"name": "", "score": 0},
+                3: {"name": "", "score": 0}
+            }
+
+    def save_high_scores(self):
+        with open('src/services/highscore.json', 'w') as file:
+            json.dump(self._high_scores, file)
+
+    def is_new_high_score(self):
+        current_score = self.get_score()
+        for high_score in self._high_scores.values():
+            if current_score > high_score["score"]:
+                return True
+        return False
+
+    def update_high_scores(self, player_name):
+        current_score = self.get_score()
+        for key, high_score in self._high_scores.items():
+            if current_score > high_score["score"]:
+                self._high_scores[key] = {"name": player_name, "score": current_score}
+                sorted_scores = sorted(self._high_scores.values(), key=lambda x: x["score"], reverse=True)
+                self._high_scores = {i+1: sorted_scores[i] for i in range(3)}
+                self.save_high_scores()
+                break
+
+    def get_high_scores(self):
+        return self._high_scores
