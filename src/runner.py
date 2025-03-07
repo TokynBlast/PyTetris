@@ -1,4 +1,6 @@
 import pygame
+import os
+import random
 from .constants import constants
 from .services import event_handler
 from .services import event_states
@@ -20,12 +22,13 @@ class GameRunner:
         self.gui_collisions = GuiCollisions(constants, self.event_variable)
         self.event_handle = event_handler.EventHandle(self.event_variable,
                                                     self.gui_collisions, constants)
+        self.sounds = []  # List to store sound files
 
     def pygame_initializer(self):
         pygame.init()
+        pygame.mixer.init()  # Initialize the mixer
         self.screen = pygame.display.set_mode((self.SCREEN_WIDTH, self.SCREEN_HEIGHT), pygame.FULLSCREEN)
-        self.game_screen = GameScreen(self.screen, constants, self.event_variable,
-                                      )
+        self.game_screen = GameScreen(self.screen, constants, self.event_variable)
         self.states = StateLoader(constants, self.event_variable, self.screen)
         self.states.load_fonts()
         self.states.load_speeds()
@@ -39,11 +42,28 @@ class GameRunner:
                                               self.title,
                                               self.event_variable, self.screen)
         self.screen_objects.create_state_objects()
-        
+
+        # Load all sound files from the assets/sounds directory
+        sound_dir = "assets/sounds"
+        for filename in os.listdir(sound_dir):
+            if filename.endswith(".wav"):
+                sound_path = os.path.join(sound_dir, filename)
+                self.sounds.append(pygame.mixer.Sound(sound_path))
+
+        # Play the first random sound
+        self.play_random_sound()
+
+    def play_random_sound(self):
+        if self.sounds:
+            sound = random.choice(self.sounds)
+            sound.play()
+            pygame.mixer.music.set_endevent(pygame.USEREVENT)
 
     def events(self):
         for event in pygame.event.get():
             self.event_handle.handle_event(event)
+            if event.type == pygame.USEREVENT:  # Event when a sound ends
+                self.play_random_sound()
 
     def game_run(self):
         self.pygame_initializer()
@@ -59,7 +79,6 @@ class GameRunner:
             self.event_variable.set_mouse_pos(pygame.mouse.get_pos())
             current_time = pygame.time.get_ticks()
             elapsed_time = current_time - start_time
-            # elapsed_seconds = elapsed_time // 1000
             self.event_variable.set_elapsed_seconds(elapsed_time)
             pygame.display.flip()
             clock.tick(FPS)
