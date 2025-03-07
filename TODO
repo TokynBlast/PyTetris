@@ -1,8 +1,8 @@
 Add:
     Game modes
     New & different shapes
-    One common sound seed for music
+    Add sound effects
 
 FIX:
-    Out of range error
+    Out of range error when turning shapes (Usually on the right)
     Shape collision
