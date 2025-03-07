@@ -4,6 +4,11 @@ class EventVariables:
         self._running = True
         self._container_coords = {}
         self._event_state = 0
+        self._high_scores = {
+            1: {"name": "", "score": 0},
+            2: {"name": "", "score": 0},
+            3: {"name": "", "score": 0}
+        }
         self._states = {0:"main_menu",
                        1:"highscore",
                        2:"pause_menu",
@@ -257,18 +262,21 @@ class EventVariables:
 
     def load_high_scores(self):
         try:
-            with open('src/services/highscore', 'r') as file:
+            with open('PyTetris/src/services/highscore.json', 'r') as file:
                 return json.load(file)
         except FileNotFoundError:
-            return {
+            default_scores = {
                 1: {"name": "", "score": 0},
                 2: {"name": "", "score": 0},
                 3: {"name": "", "score": 0}
             }
+            self.save_high_scores()
+            return default_scores
 
     def save_high_scores(self):
         with open('src/services/highscore.json', 'w') as file:
-            json.dump(self._high_scores, file)
+            json.dump(self._high_scores, file, indent=4)
+            file.flush()
 
     def is_new_high_score(self):
         current_score = self.get_score()
