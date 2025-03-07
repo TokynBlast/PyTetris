@@ -58,20 +58,20 @@ class GameScreen(Screen):
         self.screen.blit(score_surface, score_coords)
 
     def high_score_blit(self, font, color):
-        scoring_title = self.game['high_score_title']
-        scoring = self.game['high_score']
-        highscore_title_coords = place_items_at_offset_percent(self.coords['cont_x']
-                                                    ,self.coords['cont_y']
-                                                    ,self.coords['cont_width'],
+        high_scoring_title = self.game['high_score_title']
+        scoring = self.game['highscore']
+        highscore_title_coords = place_items_at_offset_percent(self.coords['cont_x'],
+                                                    self.coords['cont_y'],
+                                                    self.coords['cont_width'],
                                                     self.coords['cont_height'],
-                                                    scoring_title['x_off'],
-                                                    scoring_title['y_off'])
+                                                    high_scoring_title['x_off'],
+                                                    high_scoring_title['y_off'])
         high_score_coords = place_items_at_offset_percent(self.coords['cont_x'],
-                                                    5,
+                                                    self.coords['cont_y'],
                                                     self.coords['cont_width'],
                                                     self.coords['cont_height'],
                                                     scoring['x_off'],
-                                                    5)
+                                                    scoring['y_off'])
         
         high = self.event_state.get_high_score()
         text_surface = font.render('HIGH SCORE', True, color)
@@ -239,6 +239,7 @@ class GameScreen(Screen):
         grid_boundary_color = self.game['grid_boundary_color']
         block_size = self.game['block_size']
         self.scores_blit(font, color)
+        self.high_score_blit(font, color)
         self.grid_blit(grid_boundary_color, block_size)
         self.shape_blit(color, block_size, font)
         self.grid_exit_blit(color, font)
