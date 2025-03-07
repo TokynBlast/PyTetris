@@ -226,13 +226,25 @@ class EventVariables:
 
     def get_mouse_pos(self):
         return self._mouse_pos
-    
+
     def set_bag_of_7(self, bag_of_seven):
         self._bag_of_7 = bag_of_seven
 
+    
     def get_bag_of_7(self):
         return self._bag_of_7
     
+    def update_high_score(self):
+        current_score = self.get_score()
+        high_score = self.get_high_score()
+        if current_score > high_score:
+            with open('src/services/highscore', 'w') as score_file:
+                score_file.write(str(current_score))
+            self.set_high_score(current_score)
+
+    def set_high_score(self, score):
+        self._high_score = score
+
     def get_high_score(self):
         try:
             with open('src/services/highscore', 'r') as score_file:
@@ -241,7 +253,3 @@ class EventVariables:
             with open('src/services/highscore', 'w') as score_file:
                 score_file.write('0')
             return 0
-    
-    def set_high_score(self):
-        with open('src/services/highscore', 'w') as score_file:
-            return int(score_file.read().strip())
