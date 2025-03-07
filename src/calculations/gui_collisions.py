@@ -68,10 +68,11 @@ class GuiCollisions:
     def mouse_down_collisions(self):
         state = self.event_state.get_event_state()
         rectangles = self.event_state.get_menu_rectangles()
-        rectangles = rectangles[state]
-        mouse_x, mouse_y = self.event_state.get_mouse_pos()
-        for rect_data in rectangles:
-            if rect_data["rect"].collidepoint(mouse_x, mouse_y):
-                func_handle = self.func_mapper[state]
-                func_handle(rect_data['name'])
+        if rectangles is not None and state in rectangles and state in self.func_mapper:
+            rectangles = rectangles[state]
+            mouse_x, mouse_y = self.event_state.get_mouse_pos()
+            for rect_data in rectangles:
+                if rect_data["rect"].collidepoint(mouse_x, mouse_y):
+                    func_handle = self.func_mapper[state]
+                    func_handle(rect_data['name'])
             
