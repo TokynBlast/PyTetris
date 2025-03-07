@@ -43,7 +43,7 @@ class GuiCollisions:
     def level_score_reset(self):
         if self.event_state.get_score() > self.event_state.get_high_score():
             with open('src/services/highscore', 'w') as f:
-                f.write(self.event_state.get_score())
+                f.write(str(self.event_state.get_score()))
         self.event_state.set_game_over(False)
         self.event_state.set_score(0)
         self.event_state.set_current_shape(None)
