@@ -11,19 +11,6 @@ from .services.states_loader import StateLoader
 from .calculations.gui_collisions import GuiCollisions
 import sys
 
-import pygame
-import os
-import random
-from .constants import constants
-from .services import event_handler
-from .services import event_states
-from .gui.prepare_screen import GameScreen
-from .gui.screen_loader import Title
-from .gui.gui_objects_creator import LoadScreenState
-from .services.states_loader import StateLoader
-from .calculations.gui_collisions import GuiCollisions
-import sys
-
 class GameRunner:
     def __init__(self):
         self.SCREEN_HEIGHT = constants['SCREEN_HEIGHT']
