@@ -23,7 +23,6 @@ class GameRunner:
         self.event_handle = event_handler.EventHandle(self.event_variable,
                                                     self.gui_collisions, constants)
         self.sounds = []  # List to store sound files
-        self.player_name = ""
 
     def pygame_initializer(self):
         pygame.init()
@@ -66,12 +65,19 @@ class GameRunner:
             if event.type == pygame.USEREVENT:  # Event when a sound ends
                 self.play_random_sound()
             elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RETURN:
-                    self.event_variable.update_high_scores(self.player_name)
-                elif event.key == pygame.K_BACKSPACE:
-                    self.player_name = self.player_name[:-1]
-                else:
-                    self.player_name += event.unicode
+                if self.event_variable.name_input_active:
+                    if event.key == pygame.K_RETURN:
+                        self.event_variable.update_high_scores(self.event_variable.player_name)
+                        self.event_variable.name_input_active = False
+                        self.event_variable.player_name = ""
+                    elif event.key == pygame.K_BACKSPACE:
+                        self.event_variable.player_name = self.event_variable.player_name[:-1]
+                    else:
+                        self.event_variable.player_name += event.unicode
+
+    def check_high_score(self):
+        if self.event_variable.is_new_high_score():
+            self.event_variable.name_input_active = True
 
     def game_run(self):
         self.pygame_initializer()
@@ -90,4 +96,5 @@ class GameRunner:
             self.event_variable.set_elapsed_seconds(elapsed_time)
             pygame.display.flip()
             clock.tick(FPS)
+            self.check_high_score()
         sys.exit()
