@@ -33,7 +33,8 @@ class EventHandle:
 
         elif(event.key == pygame.K_UP):
             curr_shape = self.event_variables.get_current_shape()
-            curr_shape.increment_current_rotation()
+            if curr_shape and hasattr(curr_shape, 'increment_current_rotation'):
+                curr_shape.increment_current_rotation()
         
         elif(event.key == pygame.K_SPACE):
             curr_pause = self.event_variables.get_pause()
@@ -49,7 +50,8 @@ class EventHandle:
 
     def mousedown_handler(self, event):
         self.event_variables.set_is_mouse_pressed(True)
-        self.gui_collisions.mouse_down_collisions()
+        if self.gui_collisions:
+            self.gui_collisions.mouse_down_collisions()
         
 
     def mouseup_handler(self, event):
