@@ -2,3 +2,7 @@ Add:
     Game modes
     New & different shapes
     One common sound seed for music
+
+FIX:
+    Out of range error
+    Shape collision
