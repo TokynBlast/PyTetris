@@ -11,6 +11,19 @@ from .services.states_loader import StateLoader
 from .calculations.gui_collisions import GuiCollisions
 import sys
 
+import pygame
+import os
+import random
+from .constants import constants
+from .services import event_handler
+from .services import event_states
+from .gui.prepare_screen import GameScreen
+from .gui.screen_loader import Title
+from .gui.gui_objects_creator import LoadScreenState
+from .services.states_loader import StateLoader
+from .calculations.gui_collisions import GuiCollisions
+import sys
+
 class GameRunner:
     def __init__(self):
         self.SCREEN_HEIGHT = constants['SCREEN_HEIGHT']
@@ -23,6 +36,7 @@ class GameRunner:
         self.event_handle = event_handler.EventHandle(self.event_variable,
                                                     self.gui_collisions, constants)
         self.sounds = []  # List to store sound files
+        self.player_name = ""
 
     def pygame_initializer(self):
         pygame.init()
@@ -64,6 +78,13 @@ class GameRunner:
             self.event_handle.handle_event(event)
             if event.type == pygame.USEREVENT:  # Event when a sound ends
                 self.play_random_sound()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    self.event_variable.update_high_scores(self.player_name)
+                elif event.key == pygame.K_BACKSPACE:
+                    self.player_name = self.player_name[:-1]
+                else:
+                    self.player_name += event.unicode
 
     def game_run(self):
         self.pygame_initializer()
