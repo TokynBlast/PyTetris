@@ -188,8 +188,8 @@ class GameScreen(Screen):
                 self.event_state.set_level(curr_level)
                 movement_delay = self.constants['movement_delay'][curr_level]
                 self.event_state.set_movement_delay(movement_delay)
-        
 
+    
     def scores_blit(self, font, color):
         scoring_title = self.game["score_title"]
         scoring = self.game['score']
@@ -212,17 +212,20 @@ class GameScreen(Screen):
         self.screen.blit(text_surface, score_title_coords)
         self.screen.blit(score_surface, score_coords)
 
-    def high_scores_blit(self, font, color):
-        high_scores = self.event_state.get_high_scores()
-        for i, high_score in enumerate(high_scores.values()):
+    def high_score_blit(self, font, color):
+        high_score = self.event_state.get_high_scores()
+        if not high_score or "name" not in high_score or "score" not in high_score:
+            high_score_text = "No high score"
+        else:
             high_score_text = f"{high_score['name']} {high_score['score']}"
-            high_score_coords = place_items_at_offset_percent(self.coords['cont_x'],
-                                                    self.coords['cont_y'],
-                                                    self.coords['cont_width'],
-                                                    self.coords['cont_height'],
-                                                    0.1, 0.1 + i * 0.05)
-            high_score_surface = font.render(high_score_text, True, color)
-            self.screen.blit(high_score_surface, high_score_coords)
+        high_score_coords = place_items_at_offset_percent(self.coords['cont_x'],
+                                                self.coords['cont_y'],
+                                                self.coords['cont_width'],
+                                                self.coords['cont_height'],
+                                                self.game['highscore']['x_off'],
+                                                self.game['highscore']['y_off'])
+        high_score_surface = font.render(high_score_text, True, color)
+        self.screen.blit(high_score_surface, high_score_coords)
 
     def name_input_blit(self, font, color):
         if self.event_state.name_input_active:
@@ -235,14 +238,13 @@ class GameScreen(Screen):
                                                     0.5, 0.5)
             self.screen.blit(prompt_surface, prompt_coords)
 
-
     def draw_screen(self):
         font = self.event_state.get_all_fonts()['text_font']
         color = self.game['font_color']
         grid_boundary_color = self.game['grid_boundary_color']
         block_size = self.game['block_size']
         self.scores_blit(font, color)
-        self.high_scores_blit(font, color)
+        self.high_score_blit(font, color)
         self.grid_blit(grid_boundary_color, block_size)
         self.shape_blit(color, block_size, font)
         self.grid_exit_blit(color, font)
