@@ -1,9 +1,10 @@
 import pygame
 from .screen_loader import Screen
 from ..calculations.dims import *
+from ..constants import *
 
 class GameOver(Screen):
-    def __init__(self, event_state,constants, screen, game):
+    def __init__(self, event_state, constants, screen, game):
         self.constants = constants
         self.event_state = event_state
         self.screen = screen
@@ -27,38 +28,40 @@ class GameOver(Screen):
         menu = self.game[button_name]
         box_dims = self.game['box_dims']
         x, y, width, height = calculate_menu_boxes(menu, grid_coords,
-                                                    box_dims['width'], 
-                                                    box_dims['height'])
+                                                   box_dims['width'], 
+                                                   box_dims['height'])
         pygame.draw.rect(self.screen, color,
-                            (x, y, width, height),
-                            width=self.game['box_line_width'])
+                         (x, y, width, height),
+                         width=self.game['box_line_width'])
         text_surface = font.render(button_text, True, color)
         name_coords = center_elements(x, y, width, height,
-                                        text_surface.get_width(),
-                                        text_surface.get_height())
+                                      text_surface.get_width(),
+                                      text_surface.get_height())
         self.screen.blit(text_surface, name_coords)
-        self.rectangles.append({"rect":pygame.Rect(x, y, width, height),
-                               "name":button_name})
+        self.rectangles.append({"rect": pygame.Rect(x, y, width, height),
+                                "name": button_name})
         self.event_state.set_menu_rectangles(self.rectangles,
-                                                self.event_state.get_event_state())
+                                             self.event_state.get_event_state())
 
-    def blit_highscore(self):
-        pass
-
-    def blit_enter_high_score_name(self):
-        pass
-
-    def blit_check_highscore(self):
-        pass
+    def name_input_blit(self, font, color):
+        if self.event_state.name_input_active:
+            prompt_text = "Enter your name: " + self.event_state.player_name
+            prompt_surface = font.render(prompt_text, True, color)
+            coords = self.event_state.get_container_coords()
+            prompt_coords = place_items_at_offset_percent(
+                coords['cont_x'],
+                coords['cont_y'],
+                coords['cont_width'],
+                coords['cont_height'],
+                0.5, 0.5
+            )
+            self.screen.blit(prompt_surface, prompt_coords)
 
     def draw_screen(self):
         grid_coords = self.event_state.get_container_coords()
         color = self.game['font_color']
         font = self.event_state.get_all_fonts()['text_font']
         self.blit_game_over(grid_coords, font, color)
-        self.blit_buttons(grid_coords, font, color,
-                          'play_again',
-                          'Play Again')
-        self.blit_buttons(grid_coords, font, color,
-                          'exit',
-                          'Exit')
+        self.blit_buttons(grid_coords, font, color, 'play_again', 'Play Again')
+        self.blit_buttons(grid_coords, font, color, 'exit', 'Exit')
+        self.name_input_blit(font, color)
