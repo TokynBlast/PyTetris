@@ -1,7 +1,14 @@
 Add:
-    Game modes
+    Game mode:
+        Shifter:
+            Peices shift left or right after each drop
+        Random:
+            Peices aren't limited by chosen, but instead by a generator
+
     New & different shapes
     Add sound effects
+    Rotation Finder (Math instead of manual definition)
+    Encrypt highscore data
 
 FIX:
     Out of range error when turning shapes (Usually on the right)
