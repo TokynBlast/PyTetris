@@ -20,6 +20,8 @@ constants['RANDOM_COLORS'] = [(92, 206, 255),
 constants['main_menu'] = "assets/screens/main_menu.json"
 constants['game'] = "assets/screens/game_screen.json"
 constants['game_over'] = "assets/screens/game_over.json"
+constants['highscore'] = "src/services/highscore.json"
+constants['pause_menu'] = "assets/screens/pause_menu.json"
 constants['menu_title_font'] = {"size": 32, "color": (
     255, 255, 255), 'path': "assets/fonts/menu_items.ttf"}
 constants['text_font'] = {"size": 32, "color": (
@@ -55,6 +57,3 @@ constants['scores_awarded'] = {1: {"lines": {1: "60",
                                              4: "1800"},
                                    'placed': 40,
                                    'placed_fast': 50}}
-
-# constants['main_menu'] = "assets/screens/main_menu.json"
-# constants['main_menu'] = "assets/screens/main_menu.json"
