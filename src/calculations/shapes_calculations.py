@@ -65,10 +65,14 @@ def score_calculator(event_state, constants,
         placed = 'placed'
         if event_state.get_movement_delay() < movement_delay:
             placed = 'placed_fast'
-        event_state.set_score(curr_score + score_val[placed])
+        new_score = curr_score + score_val[placed]
+        event_state.set_score(new_score)
     else:
         lc_score = score_val['lines'].get(lines_cleared, 0)
-        event_state.set_score(curr_score + int(lc_score))
+        new_score = curr_score + int(lc_score)
+        event_state.set_score(new_score)
 
-
-
+    # Immediately update the high score if the new score is higher.
+    if new_score > event_state.get_high_scores()["1"]["score"]:
+        # If no name is set yet, you can pass an empty string.
+        event_state.update_high_scores(event_state.player_name)
