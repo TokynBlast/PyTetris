@@ -238,18 +238,12 @@ class EventVariables:
     def get_bag_of_7(self):
         return self._bag_of_7
     
-    def update_high_score(self):
+    def update_high_scores(self, player_name):
         current_score = self.get_score()
-        scores = self.get_high_scores()
-        sorted_positions = ["1", "2", "3"]
-        score_list = [scores[pos].copy() for pos in sorted_positions]
-        score_list.append({"name": self.player_name, "score": current_score})
-        score_list.sort(key=lambda x: x["score"], reverse=True)
-        for i, pos in enumerate(sorted_positions):
-            scores[pos] = score_list[i]
-            
-        self._high_scores = scores
-        self.save_high_scores()
+        if current_score > self._high_scores["1"]["score"]:
+            self._high_scores["2"] = self._high_scores["1"]
+            self._high_scores["1"] = {"name": player_name, "score": current_score}
+            self.save_high_scores()
 
     def set_high_score(self, score):
         self._high_score = score
@@ -257,7 +251,10 @@ class EventVariables:
     
     def get_high_scores(self):
         return self._high_scores
-
+    
+    def set_high_scores(self, scores):
+        self._high_scores = scores
+        self.save_high_scores()
 
     def load_high_scores(self):
         try:
