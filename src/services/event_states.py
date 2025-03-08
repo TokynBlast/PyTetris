@@ -4,11 +4,6 @@ class EventVariables:
         self._running = True
         self._container_coords = {}
         self._event_state = 0
-        self._high_scores = {
-            1: {"name": "", "score": 0},
-            2: {"name": "", "score": 0},
-            3: {"name": "", "score": 0}
-        }
         self._states = {0:"main_menu",
                        1:"highscore",
                        2:"pause_menu",
@@ -46,7 +41,6 @@ class EventVariables:
         self._high_scores = self.load_high_scores()
         self.name_input_active = False
         self.player_name = ""
-
 
     def set_line_complete(self, lc):
         self._line_completes += lc
@@ -246,11 +240,16 @@ class EventVariables:
     
     def update_high_score(self):
         current_score = self.get_score()
-        high_score = self.get_high_score()
-        if current_score > high_score:
-            with open('src/services/highscore', 'w') as score_file:
-                score_file.write(str(current_score))
-            self.set_high_score(current_score)
+        scores = self.get_high_scores()
+        sorted_positions = ["1", "2", "3"]
+        score_list = [scores[pos].copy() for pos in sorted_positions]
+        score_list.append({"name": self.player_name, "score": current_score})
+        score_list.sort(key=lambda x: x["score"], reverse=True)
+        for i, pos in enumerate(sorted_positions):
+            scores[pos] = score_list[i]
+            
+        self._high_scores = scores
+        self.save_high_scores()
 
     def set_high_score(self, score):
         self._high_score = score
@@ -262,13 +261,13 @@ class EventVariables:
 
     def load_high_scores(self):
         try:
-            with open('PyTetris/src/services/highscore.json', 'r') as file:
+            with open('src/services/highscore.json', 'r') as file:
                 return json.load(file)
         except FileNotFoundError:
             default_scores = {
-                1: {"name": "", "score": 0},
-                2: {"name": "", "score": 0},
-                3: {"name": "", "score": 0}
+                "1": {"name": "", "score": 0},
+                "2": {"name": "", "score": 0},
+                "3": {"name": "", "score": 0}
             }
             self.save_high_scores()
             return default_scores
@@ -280,20 +279,15 @@ class EventVariables:
 
     def is_new_high_score(self):
         current_score = self.get_score()
-        for high_score in self._high_scores.values():
-            if current_score > high_score["score"]:
-                return True
-        return False
+        return current_score > self._high_scores["1"]["score"]
+
 
     def update_high_scores(self, player_name):
         current_score = self.get_score()
-        for key, high_score in self._high_scores.items():
-            if current_score > high_score["score"]:
-                self._high_scores[key] = {"name": player_name, "score": current_score}
-                sorted_scores = sorted(self._high_scores.values(), key=lambda x: x["score"], reverse=True)
-                self._high_scores = {i+1: sorted_scores[i] for i in range(3)}
-                self.save_high_scores()
-                break
+        if current_score > self._high_scores["1"]["score"]:
+            self._high_scores["2"] = self._high_scores["1"]
+            self._high_scores["1"] = {"name": player_name, "score": current_score}
+            self.save_high_scores()
 
-    def get_high_scores(self):
-        return self._high_scores
+    def get_high_score(self):
+        return self._high_scores["1"]
