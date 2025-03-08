@@ -41,11 +41,26 @@ class GuiCollisions:
             self.event_state.set_running(False)
     
     def level_score_reset(self):
+        current_score = self.event_state.get_score()
+        # Reload high scores from file or from an updated state
         high_scores = self.event_state.get_high_scores()
-        current_high_score = high_scores.get('score', 0) if isinstance(high_scores, dict) else 0
-        if self.event_state.get_score() > current_high_score:
+        
+        # Convert keys to strings if needed, ensuring we compare against key "1"
+        top_score = high_scores.get("1", {"name": "", "score": 0})
+
+        if current_score > top_score["score"]:
+            # Update the top three scores:
+            updated_high_scores = {
+                "1": {"name": self.event_state.player_name, "score": current_score},
+                "2": high_scores.get("1", {"name": "", "score": 0}),
+                "3": high_scores.get("2", {"name": "", "score": 0})
+            }
             with open('src/services/highscore.json', 'w') as f:
-                json.dump({'score': self.event_state.get_score()}, f)
+                json.dump(updated_high_scores, f, indent=4)
+            # Also update the in-memory state if necessary.
+            self.event_state.set_high_scores(updated_high_scores)
+        
+        # Reset game-related parameters
         self.event_state.set_game_over(False)
         self.event_state.set_score(0)
         self.event_state.set_current_shape(None)
