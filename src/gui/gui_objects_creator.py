@@ -9,6 +9,7 @@ class LoadScreenState:
         self.title = title
         self.event_state = event_state
         self.screen = screen
+        self.event_objects = {}
 
     def create_state_objects(self):
         all_states = self.event_state.get_all_event_states()
@@ -19,16 +20,19 @@ class LoadScreenState:
                 entity_dict = read_files.read_json(screen_path)
                 if v == "main_menu":
                     state_obj = MainMenu(self.constants, self.title, entity_dict,
-                                        self.event_state, self.screen)
+                                         self.event_state, self.screen)
                 elif v == "game":
                     state_obj = GameScreen(self.constants, self.title, entity_dict,
-                                        self.event_state, self.screen)
+                                           self.event_state, self.screen)
                 elif v == "game_over":
-                    state_obj = GameOver(self.event_state, self.constants,
-                                         self.screen, entity_dict)
+                    state_obj = GameOver(self.event_state, self.constants, self.screen, entity_dict)
+                elif v == "highscore":
+                    state_obj = None
+                    highscore_data = read_files.read_json(screen_path)
+                    state_obj = highscore_data
                 event_objects[v] = state_obj
             except Exception as e:
-                print(str(e))
+                raise Exception(f"Failed to create state object for {v}: {str(e)}")
         self.event_objects = event_objects
         self.event_state.set_event_objects(event_objects)
 
