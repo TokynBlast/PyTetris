@@ -213,29 +213,40 @@ class GameScreen(Screen):
         self.screen.blit(score_surface, score_coords)
 
     def high_score_blit(self, font, color):
-        high_score = self.event_state.get_high_scores()
-        if not high_score or "name" not in high_score or "score" not in high_score:
-            high_score_text = "No high score"
+        high_scores = self.event_state.get_high_scores()
+        top_score = high_scores.get("1", {"name": "", "score": 0})
+        if top_score["name"] == "" and top_score["score"] == 0:
+            number_text = "NO HIGHSCORE FOUND"
         else:
-            high_score_text = f"{high_score['name']} {high_score['score']}"
-        high_score_coords = place_items_at_offset_percent(self.coords['cont_x'],
-                                                self.coords['cont_y'],
-                                                self.coords['cont_width'],
-                                                self.coords['cont_height'],
-                                                self.game['highscore']['x_off'],
-                                                self.game['highscore']['y_off'])
-        high_score_surface = font.render(high_score_text, True, color)
-        self.screen.blit(high_score_surface, high_score_coords)
+            number_text = f"{top_score['name']} {top_score['score']}"
+        # Calculate base coordinates for high score number.
+        high_score_coords = place_items_at_offset_percent(
+            self.coords['cont_x'],
+            self.coords['cont_y'],
+            self.coords['cont_width'],
+            self.coords['cont_height'],
+            self.game['highscore']['x_off'],
+            self.game['highscore']['y_off']
+        )
+        # Calculate title coordinates by shifting upward (e.g., 40 pixels)
+        title_coords = (high_score_coords[0], high_score_coords[1] - 40)
+        title_surface = font.render("HIGHSCORE", True, color)
+        number_surface = font.render(number_text, True, color)
+        self.screen.blit(title_surface, title_coords)
+        self.screen.blit(number_surface, high_score_coords)
 
     def name_input_blit(self, font, color):
         if self.event_state.name_input_active:
             prompt_text = "Enter your name: " + self.event_state.player_name
             prompt_surface = font.render(prompt_text, True, color)
-            prompt_coords = place_items_at_offset_percent(self.coords['cont_x'],
-                                                    self.coords['cont_y'],
-                                                    self.coords['cont_width'],
-                                                    self.coords['cont_height'],
-                                                    0.5, 0.5)
+            coords = self.event_state.get_container_coords()
+            prompt_coords = place_items_at_offset_percent(
+                coords['cont_x'],
+                coords['cont_y'],
+                coords['cont_width'],
+                coords['cont_height'],
+                0.5, 0.5
+            )
             self.screen.blit(prompt_surface, prompt_coords)
 
     def draw_screen(self):
@@ -261,3 +272,5 @@ class GameScreen(Screen):
         self.event_state.set_line_complete(lc)
         self.event_state.set_game_over(detect_game_over(grid_rows))
         self.level_change_check()
+        # Blit name input text if necessary
+        self.name_input_blit(font, color)
