@@ -44,8 +44,8 @@ class GuiCollisions:
         high_scores = self.event_state.get_high_scores()
         current_high_score = high_scores.get('score', 0) if isinstance(high_scores, dict) else 0
         if self.event_state.get_score() > current_high_score:
-            with open('src/services/highscore', 'w') as f:
-                f.write(str(self.event_state.get_score()))
+            with open('src/services/highscore.json', 'w') as f:
+                json.dump({'score': self.event_state.get_score()}, f)
         self.event_state.set_game_over(False)
         self.event_state.set_score(0)
         self.event_state.set_current_shape(None)
